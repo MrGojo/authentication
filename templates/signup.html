@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #555;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease-in-out;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #4caf50;
+            outline: none;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form action="/signup" method="POST" enctype="multipart/form-data">
+            <!-- Personal Details Section -->
+            <div class="section">
+                <h3>Personal Details</h3>
+                <div class="grid">
+                    <input type="text" name="first_name" placeholder="First Name" required>
+                    <input type="text" name="last_name" placeholder="Last Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                </div>
+            </div>
+
+            <!-- Preferences Section -->
+            <div class="section">
+                <h3>Preferences</h3>
+                <div class="grid">
+                    <select name="gender" required>
+                        <option value="" disabled selected>Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="number" name="age" placeholder="Age" required>
+                    <input type="text" name="height" placeholder="Height (e.g., 5.8 ft)" required>
+                </div>
+                <div class="grid">
+                    <select name="preferred_gender" required>
+                        <option value="" disabled selected>Preferred Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="number" name="preferred_budget" placeholder="Preferred Budget" required>
+                    <select name="preferred_location" required>
+                        <option value="" disabled selected>Preferred Location</option>
+                        <option value="Beach">Beach</option>
+                        <option value="Mountains">Mountains</option>
+                        <option value="Historical Places">Historical Places</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Lifestyle Section -->
+            <div class="section">
+                <h3>Lifestyle</h3>
+                <div class="grid">
+                    <select name="drinking" required>
+                        <option value="" disabled selected>Do you drink?</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Occasionally">Occasionally</option>
+                    </select>
+                    <select name="smoking" required>
+                        <option value="" disabled selected>Do you smoke?</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Occasionally">Occasionally</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Additional Details Section -->
+            <div class="section">
+                <h3>Additional Details</h3>
+                <textarea name="interests" placeholder="Interests (comma-separated)" required></textarea>
+                <textarea name="qualities" placeholder="Qualities (comma-separated)" required></textarea>
+                <textarea name="prompt" placeholder="Prompts (comma-separated)" required></textarea>
+                <input type="text" name="religion" placeholder="Religion" required>
+            </div>
+
+            <!-- Photos Section -->
+            <div class="section">
+                <h3>Photos</h3>
+                <input type="file" name="photos" accept="image/*" multiple required>
+            </div>
+
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+</body>
+</html>
