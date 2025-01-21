@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <h1>Travel Plans</h1>
+    <a href="{{ url_for('travel_create') }}">Add Travel Plan</a>
+    <ul>
+        {% for travel in travel_details %}
+            <li>
+                {{ travel.destination }} ({{ travel.start_date }} - {{ travel.end_date }})
+                <a href="{{ url_for('travel_update', pk=travel.id) }}">Edit</a>
+                <a href="{{ url_for('travel_delete', pk=travel.id) }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</html>
