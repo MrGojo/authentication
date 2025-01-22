@@ -13,9 +13,12 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Database initialization
+DATABASE_PATH = 'database/users.db'
+
 def init_db():
-    conn = sqlite3.connect('database/users.db')
-    cursor = conn.cursor()
+    os.makedirs(os.path.dirname(DATABASE_PATH), exist_ok=True)
+    conn = sqlite3.connect(DATABASE_PATH)
+    cursor = conn.cursor()  
     
     # Users Table
     cursor.execute('''
