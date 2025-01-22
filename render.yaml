@@ -1,0 +1,5 @@
+services:
+  - type: web
+    name: my-flask-app
+    env: python
+    runtime: Python 3.12.6  # Replace with your local Python version (e.g., 3.10)
