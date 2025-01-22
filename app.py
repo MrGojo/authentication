@@ -4,17 +4,22 @@ import sqlite3
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 
 # Directory to store uploaded photos
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Database initialization
-DATABASE_PATH = 'database/users.db'
+# Database path
+DATABASE_PATH = os.getenv('DATABASE_URL', 'database/users.db')
 
+# Initialize the database
 def init_db():
     os.makedirs(os.path.dirname(DATABASE_PATH), exist_ok=True)
     conn = sqlite3.connect(DATABASE_PATH)
@@ -116,7 +121,7 @@ def signup():
 
     try:
         # Save user data
-        conn = sqlite3.connect('database/users.db')
+        conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
         cursor.execute('''
             INSERT INTO users (first_name, last_name, email, password, gender, age, location_lat, location_long)
@@ -155,7 +160,7 @@ def signin():
     password = request.form.get('password')
 
     # Check if the email exists in the database
-    conn = sqlite3.connect('database/users.db')
+    conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     cursor.execute('SELECT id, password FROM users WHERE email = ?', (email,))
     user = cursor.fetchone()
