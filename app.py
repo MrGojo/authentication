@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, jsonify
 import re
 import sqlite3
 import os
@@ -6,6 +6,7 @@ import jwt
 import datetime
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
+from location_data import STATES_AND_DISTRICTS, STATES_LIST
 
 # Load environment variables from .env file
 load_dotenv()
@@ -88,6 +89,11 @@ def signup_page():
 # Route to handle the Sign-Up form submission
 @app.route('/signup', methods=['POST'])
 def signup():
+    # Add debug printing
+    print("Form data received:")
+    print("Files:", request.files)
+    print("Form:", request.form)
+    
     # Collect form data
     full_name = request.form.get('full_name')
     email = request.form.get('email')
@@ -169,8 +175,12 @@ def signin_page():
 # Route to handle the Sign-In form submission
 @app.route('/signin', methods=['POST'])
 def signin():
-    email = request.form.get('email')
-    password = request.form.get('password')  # Optional for validation
+    # Get data from form
+    data = request.get_json() if request.is_json else request.form
+    email = data.get('email')
+    password = data.get('password')  # Optional for validation
+
+    print("Signin attempt for email:", email)  # Debug print
 
     # Fetch JWT from the database
     conn = sqlite3.connect(DATABASE_PATH)
@@ -181,18 +191,54 @@ def signin():
 
     # If user not found
     if user is None:
-        return "User not found", 404
+        return jsonify({"error": "User not found"}), 404
 
     user_id, stored_jwt = user
 
     # Validate JWT
     try:
         decoded_jwt = jwt.decode(stored_jwt, SECRET_KEY, algorithms=['HS256'])
-        return f"Welcome back, {decoded_jwt['full_name']}!", 200
+        return jsonify({
+            "message": f"Welcome back, {decoded_jwt['full_name']}!",
+            "token": stored_jwt
+        }), 200
     except jwt.ExpiredSignatureError:
-        return "Token has expired. Please sign in again.", 401
+        return jsonify({"error": "Token has expired. Please sign in again."}), 401
     except jwt.InvalidTokenError:
-        return "Invalid token. Authentication failed.", 401
+        return jsonify({"error": "Invalid token. Authentication failed."}), 401
+
+# Add this new route to get states and districts
+@app.route('/get_states')
+def get_states():
+    return jsonify(STATES_LIST)
+
+@app.route('/get_districts/<state>')
+def get_districts(state):
+    districts = STATES_AND_DISTRICTS.get(state, [])
+    return jsonify(districts)
+
+@app.route('/users')
+def view_users():
+    conn = sqlite3.connect(DATABASE_PATH)
+    cursor = conn.cursor()
+    
+    # Fetch all users with their preferences and photos
+    cursor.execute('''
+        SELECT 
+            users.*,
+            preferences.*,
+            GROUP_CONCAT(photos.photo_path) as photo_paths
+        FROM users
+        LEFT JOIN preferences ON users.id = preferences.user_id
+        LEFT JOIN photos ON users.id = photos.user_id
+        GROUP BY users.id
+    ''')
+    
+    columns = [desc[0] for desc in cursor.description]
+    users = [dict(zip(columns, row)) for row in cursor.fetchall()]
+    
+    conn.close()
+    return jsonify(users)
 
 if __name__ == '__main__':
     app.run(debug=True)

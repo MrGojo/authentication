@@ -131,32 +131,44 @@
         function handleSignIn(event) {
             event.preventDefault();
             const form = event.target;
-            const email = form.email.value;
-            const password = form.password.value;
-            const remember = form.remember.checked;
+            const formData = {
+                email: form.email.value,
+                password: form.password.value,
+                remember: form.remember.checked
+            };
 
             fetch('/signin', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password, remember })
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.token) {
-                    document.getElementById('message').textContent = 'Sign-in successful!';
-                    if (remember) {
-                        localStorage.setItem('jwt', data.token);
-                    } else {
-                        sessionStorage.setItem('jwt', data.token);
-                    }
-                    // Optionally redirect or perform other actions
-                } else {
-                    document.getElementById('message').textContent = data.error || 'Sign-in failed.';
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => Promise.reject(data));
                 }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').textContent = data.message;
+                
+                // Store the token
+                if (formData.remember) {
+                    localStorage.setItem('jwt', data.token);
+                } else {
+                    sessionStorage.setItem('jwt', data.token);
+                }
+                
+                // Redirect to dashboard or home page after successful login
+                // window.location.href = '/dashboard';  // Uncomment this when you have a dashboard
             })
             .catch(error => {
-                console.error('Error during sign-in:', error);
-                document.getElementById('message').textContent = 'An error occurred.';
+                console.error('Error:', error);
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').textContent = error.error || 'An error occurred during sign-in.';
             });
         }
     </script>
