@@ -2,11 +2,11 @@ from flask import Flask, request, render_template, redirect, url_for, jsonify
 import re
 import sqlite3
 import os
-import jwt
-import datetime
+from jwt import encode, decode, ExpiredSignatureError, InvalidTokenError
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 from location_data import STATES_AND_DISTRICTS, STATES_LIST
+import PyJWT as jwt
 
 # Load environment variables from .env file
 load_dotenv()
@@ -136,7 +136,7 @@ def signup():
         'full_name': full_name,
         'exp': datetime.datetime.utcnow() + datetime.timedelta(days=30)  # Token expiration: 30 days
     }
-    jwt_token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    jwt_token = encode(payload, SECRET_KEY, algorithm='HS256')
 
     try:
         # Save user data
@@ -197,14 +197,14 @@ def signin():
 
     # Validate JWT
     try:
-        decoded_jwt = jwt.decode(stored_jwt, SECRET_KEY, algorithms=['HS256'])
+        decoded_jwt = decode(stored_jwt, SECRET_KEY, algorithms=['HS256'])
         return jsonify({
             "message": f"Welcome back, {decoded_jwt['full_name']}!",
             "token": stored_jwt
         }), 200
-    except jwt.ExpiredSignatureError:
+    except ExpiredSignatureError:
         return jsonify({"error": "Token has expired. Please sign in again."}), 401
-    except jwt.InvalidTokenError:
+    except InvalidTokenError:
         return jsonify({"error": "Invalid token. Authentication failed."}), 401
 
 # Add this new route to get states and districts
