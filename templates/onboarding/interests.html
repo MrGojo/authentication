@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interests - Onboarding</title>
+    <style>
+        /* Copy styles from previous templates */
+        .interests-container {
+            margin-bottom: 20px;
+        }
+        .interest-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .interest-tag {
+            padding: 8px 16px;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .interest-tag.selected {
+            background-color: #4caf50;
+            color: white;
+        }
+        .custom-interest {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>What are your interests?</h2>
+        <form action="/onboarding/interests" method="POST">
+            <div class="interests-container">
+                <div class="interest-tags" id="interestTags">
+                    <!-- Pre-defined interests -->
+                    <div class="interest-tag" onclick="toggleInterest(this)">Travel</div>
+                    <div class="interest-tag" onclick="toggleInterest(this)">Music</div>
+                    <div class="interest-tag" onclick="toggleInterest(this)">Sports</div>
+                    <div class="interest-tag" onclick="toggleInterest(this)">Reading</div>
+                    <div class="interest-tag" onclick="toggleInterest(this)">Cooking</div>
+                    <div class="interest-tag" onclick="toggleInterest(this)">Photography</div>
+                    <div class="interest-tag" onclick="toggleInterest(this)">Art</div>
+                    <div class="interest-tag" onclick="toggleInterest(this)">Gaming</div>
+                    <div class="interest-tag" onclick="toggleInterest(this)">Fitness</div>
+                    <div class="interest-tag" onclick="toggleInterest(this)">Movies</div>
+                </div>
+                <input type="hidden" name="interests" id="selectedInterests">
+            </div>
+            <button type="submit">Next</button>
+        </form>
+    </div>
+    <script>
+        function toggleInterest(element) {
+            element.classList.toggle('selected');
+            updateSelectedInterests();
+        }
+
+        function updateSelectedInterests() {
+            const selected = Array.from(document.querySelectorAll('.interest-tag.selected'))
+                                .map(tag => tag.textContent);
+            document.getElementById('selectedInterests').value = selected.join(',');
+        }
+    </script>
+</body>
+</html> 

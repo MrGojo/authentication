@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Occupation - Onboarding</title>
+    <style>
+        /* Copy styles from previous templates */
+        .occupation-field {
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .helper-text {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>What do you do?</h2>
+        <form action="/onboarding/occupation" method="POST">
+            <div class="occupation-field">
+                <input type="text" name="occupation" placeholder="Your occupation" required>
+                <div class="helper-text">
+                    E.g., Software Engineer, Doctor, Artist, Student
+                </div>
+            </div>
+            <button type="submit">Next</button>
+        </form>
+    </div>
+</body>
+</html> 

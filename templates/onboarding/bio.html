@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio - Onboarding</title>
+    <style>
+        /* Copy styles from gender.html */
+        /* Additional styles */
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            min-height: 150px;
+            resize: vertical;
+        }
+        .char-count {
+            text-align: right;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Tell us about yourself</h2>
+        <form action="/onboarding/bio" method="POST">
+            <textarea name="bio" id="bio" placeholder="Write something interesting about yourself..." 
+                      maxlength="500" required></textarea>
+            <div class="char-count">
+                <span id="current">0</span>/500 characters
+            </div>
+            <button type="submit">Next</button>
+        </form>
+    </div>
+    <script>
+        const bioText = document.getElementById('bio');
+        const charCount = document.getElementById('current');
+
+        bioText.addEventListener('input', function() {
+            charCount.textContent = this.value.length;
+        });
+    </script>
+</body>
+</html> 

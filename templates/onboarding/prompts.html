@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompts - Onboarding</title>
+    <style>
+        /* Copy styles from previous templates */
+        .prompt-container {
+            margin-bottom: 30px;
+        }
+        .prompt-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            min-height: 100px;
+            resize: vertical;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .success-message {
+            color: green;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Answer some prompts</h2>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="error-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('onboarding_prompts') }}" method="POST" id="promptsForm">
+            <div class="prompt-container">
+                <div class="prompt-question">
+                    What's your idea of a perfect date?
+                </div>
+                <textarea name="prompt1" required minlength="10"></textarea>
+
+                <div class="prompt-question">
+                    What's the most adventurous thing you've done?
+                </div>
+                <textarea name="prompt2" required minlength="10"></textarea>
+
+                <div class="prompt-question">
+                    What are you looking for in a partner?
+                </div>
+                <textarea name="prompt3" required minlength="10"></textarea>
+            </div>
+            <button type="submit">Complete Profile</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('promptsForm').addEventListener('submit', function(e) {
+            const textareas = this.querySelectorAll('textarea');
+            let valid = true;
+            
+            textareas.forEach(textarea => {
+                if (textarea.value.trim().length < 10) {
+                    valid = false;
+                    textarea.style.borderColor = 'red';
+                } else {
+                    textarea.style.borderColor = '#ddd';
+                }
+            });
+            
+            if (!valid) {
+                e.preventDefault();
+                alert('Please provide meaningful answers (at least 10 characters)');
+            }
+        });
+    </script>
+</body>
+</html> 

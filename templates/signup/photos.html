@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photos - Signup</title>
+    <style>
+        /* Copy existing styles from signup.html */
+        .photo-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .photo-preview img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Upload Your Photos</h2>
+        <form action="/signup/photos" method="POST" enctype="multipart/form-data">
+            <input type="file" name="photos" accept="image/*" multiple required
+                   onchange="previewPhotos(this)" max="6">
+            <div class="photo-preview" id="photoPreview"></div>
+            <p>Upload between 1 and 6 photos</p>
+            <button type="submit">Complete Signup</button>
+        </form>
+    </div>
+    <script>
+        function previewPhotos(input) {
+            const preview = document.getElementById('photoPreview');
+            preview.innerHTML = '';
+            
+            if (input.files.length > 6) {
+                alert('You can only upload up to 6 photos');
+                input.value = '';
+                return;
+            }
+
+            for (const file of input.files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html> 

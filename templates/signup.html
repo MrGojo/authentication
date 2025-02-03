@@ -23,324 +23,71 @@
             background-color: #ffffff;
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            padding: 20px;
+            padding: 40px;
             width: 100%;
-            max-width: 600px;
-            overflow-y: auto;
-            max-height: 90vh;
+            max-width: 400px;
         }
         h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333;
             text-align: center;
+            margin-bottom: 30px;
+            color: #333;
         }
-        .section {
-            display: none;
-        }
-        .section.active {
-            display: block;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        input, select, textarea {
+        input {
             width: 100%;
             padding: 12px;
+            margin-bottom: 15px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 16px;
-            transition: border-color 0.3s ease-in-out;
-        }
-        input:focus, select:focus, textarea:focus {
-            border-color: #4caf50;
-            outline: none;
-        }
-        textarea {
-            resize: vertical;
         }
         button {
             width: 100%;
             padding: 12px;
-            background-color: #4caf50;
+            background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
         }
         button:hover {
             background-color: #45a049;
         }
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-        }
-        @media (max-width: 480px) {
-            .container {
-                padding: 15px;
-            }
-            h2 {
-                font-size: 20px;
-            }
+        .error-message {
+            color: red;
+            margin-bottom: 15px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Sign Up</h2>
-        <form action="/signup" method="POST" enctype="multipart/form-data">
-            <!-- Personal Details Section -->
-            <div class="section active" id="section1">
-                <h3>Personal Details</h3>
-                <div class="grid">
-                    <input type="text" name="full_name" placeholder="Full Name" required>
-                    <input type="email" name="email" placeholder="Email" required>
-                    <input type="password" name="password" placeholder="Password" required 
-                           title="Password must contain at least one number, one uppercase letter, and one special symbol">
-                    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-                </div>
-                <!-- Hidden fields for location - will be populated by JavaScript -->
-                <input type="hidden" name="location_lat" id="location_lat" value="0">
-                <input type="hidden" name="location_long" id="location_long" value="0">
-                <div class="grid">
-                    <select id="state" name="state" required>
-                        <option value="" disabled selected>Select State</option>
-                    </select>
-                </div>
-                <div class="grid">
-                    <select id="district" name="district" required>
-                        <option value="" disabled selected>Select District</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Preferences Section -->
-            <div class="section" id="section2">
-                <h3>Preferences</h3>
-                <div class="grid">
-                    <select name="gender" required>
-                        <option value="" disabled selected>Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <input type="number" name="age" placeholder="Age" required>
-                    <input type="text" name="height" placeholder="Height (e.g., 5.8 ft)" required>
-                </div>
-                <div class="grid">
-                    <select name="preferred_gender" required>
-                        <option value="" disabled selected>Preferred Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <input type="number" name="preferred_budget" placeholder="Preferred Budget" required>
-                    <select name="preferred_location" required>
-                        <option value="" disabled selected>Preferred Location</option>
-                        <option value="Beach">Beach</option>
-                        <option value="Mountains">Mountains</option>
-                        <option value="Historical Places">Historical Places</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Lifestyle Section -->
-            <div class="section" id="section3">
-                <h3>Lifestyle</h3>
-                <div class="grid">
-                    <select name="drinking" required>
-                        <option value="" disabled selected>Do you drink?</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                        <option value="Occasionally">Occasionally</option>
-                    </select>
-                    <select name="smoking" required>
-                        <option value="" disabled selected>Do you smoke?</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                        <option value="Occasionally">Occasionally</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Additional Details Section -->
-            <div class="section" id="section4">
-                <h3>Additional Details</h3>
-                <textarea name="interests" placeholder="Interests (comma-separated)" required></textarea>
-                <textarea name="qualities" placeholder="Qualities (comma-separated)" required></textarea>
-                <textarea name="prompt" placeholder="Prompts (comma-separated)" required></textarea>
-                <input type="text" name="religion" placeholder="Religion" required>
-            </div>
-
-            <!-- Photos Section -->
-            <div class="section" id="section5">
-                <h3>Photos</h3>
-                <input type="file" name="photos" accept="image/*" multiple required>
-            </div>
-
-            <div class="button-group">
-                <button type="button" id="prevBtn">Previous</button>
-                <button type="button" id="nextBtn">Next</button>
-                <button type="submit" id="submitBtn" style="display: none;">Submit</button>
-            </div>
+        <h2>Create Account</h2>
+        <form action="/signup" method="POST" id="signupForm">
+            <input type="text" name="full_name" placeholder="Full Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            <div id="message" class="error-message"></div>
+            <button type="submit">Continue to Onboarding</button>
         </form>
     </div>
 
     <script>
-        // Load states when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            const stateSelect = document.getElementById("state");
-            const districtSelect = document.getElementById("district");
-
-            // Fetch states from backend
-            fetch('/get_states')
-                .then(response => response.json())
-                .then(states => {
-                    states.forEach(state => {
-                        const option = document.createElement("option");
-                        option.value = state;
-                        option.textContent = state;
-                        stateSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error loading states:', error));
-
-            // Update districts when state is selected
-            stateSelect.addEventListener("change", function() {
-                const selectedState = this.value;
-                
-                // Clear current districts
-                districtSelect.innerHTML = '<option value="" disabled selected>Select District</option>';
-                
-                // Fetch districts for selected state
-                fetch(`/get_districts/${selectedState}`)
-                    .then(response => response.json())
-                    .then(districts => {
-                        districts.forEach(district => {
-                            const option = document.createElement("option");
-                            option.value = district;
-                            option.textContent = district;
-                            districtSelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error loading districts:', error));
-            });
-        });
-
-        const sections = document.querySelectorAll('.section');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const submitBtn = document.getElementById('submitBtn');
-        let currentSection = 0;
-
-        function showSection(index) {
-            sections.forEach((section, i) => {
-                section.classList.toggle('active', i === index);
-            });
-            prevBtn.style.display = index === 0 ? 'none' : 'inline-block';
-            nextBtn.style.display = index === sections.length - 1 ? 'none' : 'inline-block';
-            submitBtn.style.display = index === sections.length - 1 ? 'inline-block' : 'none';
-        }
-
-        prevBtn.addEventListener('click', () => {
-            if (currentSection > 0) {
-                currentSection--;
-                showSection(currentSection);
-            }
-        });
-
-        nextBtn.addEventListener('click', () => {
-            if (currentSection < sections.length - 1) {
-                currentSection++;
-                showSection(currentSection);
-            }
-        });
-
-        showSection(currentSection);
-
-        // 1. Location Detection
-        function getLocation() {
-            if ("geolocation" in navigator) {
-                navigator.geolocation.getCurrentPosition(
-                    // Success callback
-                    function(position) {
-                        document.getElementById('location_lat').value = position.coords.latitude;
-                        document.getElementById('location_long').value = position.coords.longitude;
-                        console.log("Location obtained:", position.coords.latitude, position.coords.longitude);
-                    },
-                    // Error callback
-                    function(error) {
-                        console.error("Error getting location:", error);
-                        // Default values if location access is denied
-                        document.getElementById('location_lat').value = 0;
-                        document.getElementById('location_long').value = 0;
-                    }
-                );
-            } else {
-                console.log("Geolocation is not supported by this browser");
-                document.getElementById('location_lat').value = 0;
-                document.getElementById('location_long').value = 0;
-            }
-        }
-
-        // 2. Form Validation Functions
-        function validatePassword(password) {
-            const hasUpperCase = /[A-Z]/.test(password);
-            const hasNumber = /[0-9]/.test(password);
-            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            if (!hasUpperCase || !hasNumber || !hasSpecial) {
-                alert("Password must contain at least:\n- One uppercase letter\n- One number\n- One special character (!@#$%^&*(),.?\":{}|<>)");
-                return false;
-            }
-            return true;
-        }
-
-        function validatePhotos(photoInput) {
-            const files = photoInput.files;
-            if (files.length < 1 || files.length > 6) {
-                alert("Please upload between 1 and 6 photos");
-                return false;
-            }
-            return true;
-        }
-
-        // 3. Form Submission Handler
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent immediate form submission
-
-            // Get form values
             const password = document.querySelector('input[name="password"]').value;
             const confirmPassword = document.querySelector('input[name="confirm_password"]').value;
-            const photoInput = document.querySelector('input[name="photos"]');
-
-            // Validate password match
+            
             if (password !== confirmPassword) {
-                alert("Passwords do not match");
+                document.getElementById('message').textContent = 'Passwords do not match';
                 return;
             }
-
-            // Validate password requirements
-            if (!validatePassword(password)) {
-                return;
-            }
-
-            // Validate photo upload
-            if (!validatePhotos(photoInput)) {
-                return;
-            }
-
-            // If all validations pass, submit the form
-            console.log("Form validation passed, submitting...");
+            
+            // Submit the form
             this.submit();
         });
-
-        // 4. Initialize location detection when page loads
-        getLocation();
     </script>
 </body>
 </html>

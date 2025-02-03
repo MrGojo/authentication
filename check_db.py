@@ -5,7 +5,7 @@ from pprint import pprint
 # Use the same database path as in your app
 DATABASE_PATH = 'database/users.db'
 
-def view_database():
+def check_database_structure():
     if not os.path.exists(DATABASE_PATH):
         print(f"Database file not found at {DATABASE_PATH}")
         return
@@ -13,23 +13,24 @@ def view_database():
     conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
 
-    # View tables
-    print("\n=== Tables in database ===")
+    # Get all tables
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
+    
+    print("\nDatabase Tables:")
     for table in tables:
-        print(f"\n=== Contents of {table[0]} ===")
-        cursor.execute(f"SELECT * FROM {table[0]}")
-        columns = [description[0] for description in cursor.description]
-        print("Columns:", columns)
-        rows = cursor.fetchall()
-        if rows:
-            for row in rows:
-                print("\nRow:", dict(zip(columns, row)))
-        else:
-            print("No data in table")
+        table_name = table[0]
+        print(f"\n=== Table: {table_name} ===")
+        
+        # Get table info
+        cursor.execute(f"PRAGMA table_info({table_name});")
+        columns = cursor.fetchall()
+        
+        print("Columns:")
+        for col in columns:
+            print(f"  {col[1]} ({col[2]})")
 
     conn.close()
 
 if __name__ == "__main__":
-    view_database()
+    check_database_structure()

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifestyle - Signup</title>
+    <style>
+        /* Copy existing styles from signup.html */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Lifestyle Information</h2>
+        <form action="/signup/lifestyle" method="POST">
+            <textarea name="interests" placeholder="Your Interests (comma-separated)" required></textarea>
+            <textarea name="qualities" placeholder="Your Qualities (comma-separated)" required></textarea>
+            <select name="drinking" required>
+                <option value="" disabled selected>Drinking Habits</option>
+                <option value="Never">Never</option>
+                <option value="Occasionally">Occasionally</option>
+                <option value="Socially">Socially</option>
+                <option value="Regularly">Regularly</option>
+            </select>
+            <select name="smoking" required>
+                <option value="" disabled selected>Smoking Habits</option>
+                <option value="Never">Never</option>
+                <option value="Occasionally">Occasionally</option>
+                <option value="Regularly">Regularly</option>
+            </select>
+            <input type="text" name="religion" placeholder="Religion" required>
+            <button type="submit">Next</button>
+        </form>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location - Signup</title>
+    <style>
+        /* Copy existing styles from signup.html */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Location Details</h2>
+        <form action="/signup/location" method="POST">
+            <select id="state" name="state" required>
+                <option value="" disabled selected>Select State</option>
+            </select>
+            <select id="district" name="district" required>
+                <option value="" disabled selected>Select District</option>
+            </select>
+            <input type="hidden" name="location_lat" id="location_lat">
+            <input type="hidden" name="location_long" id="location_long">
+            <button type="submit">Next</button>
+        </form>
+    </div>
+    <script>
+        // Load states and districts
+        fetch('/get_states')
+            .then(response => response.json())
+            .then(states => {
+                const stateSelect = document.getElementById('state');
+                states.forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state;
+                    option.textContent = state;
+                    stateSelect.appendChild(option);
+                });
+            });
+
+        // Update districts when state is selected
+        document.getElementById('state').addEventListener('change', function() {
+            const selectedState = this.value;
+            fetch(`/get_districts/${selectedState}`)
+                .then(response => response.json())
+                .then(districts => {
+                    const districtSelect = document.getElementById('district');
+                    districtSelect.innerHTML = '<option value="" disabled selected>Select District</option>';
+                    districts.forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district;
+                        option.textContent = district;
+                        districtSelect.appendChild(option);
+                    });
+                });
+        });
+
+        // Get user's location
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                document.getElementById('location_lat').value = position.coords.latitude;
+                document.getElementById('location_long').value = position.coords.longitude;
+            });
+        }
+    </script>
+</body>
+</html> 

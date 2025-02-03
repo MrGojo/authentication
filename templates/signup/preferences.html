@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferences - Signup</title>
+    <style>
+        /* Copy existing styles from signup.html */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Your Preferences</h2>
+        <form action="/signup/preferences" method="POST">
+            <input type="number" name="budget" placeholder="Your Budget" required>
+            <select name="preferred_gender" required>
+                <option value="" disabled selected>Preferred Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="number" name="preferred_budget" placeholder="Preferred Budget" required>
+            <select name="preferred_location" required>
+                <option value="" disabled selected>Preferred Location</option>
+                <option value="Beach">Beach</option>
+                <option value="Mountains">Mountains</option>
+                <option value="City">City</option>
+                <option value="Countryside">Countryside</option>
+            </select>
+            <input type="text" name="height" placeholder="Height (e.g., 5.8 ft)" required>
+            <button type="submit">Next</button>
+        </form>
+    </div>
+</body>
+</html> 

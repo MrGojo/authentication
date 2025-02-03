@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Information - Signup</title>
+    <style>
+        /* Copy existing styles from signup.html */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Personal Information</h2>
+        <form action="/signup/personal" method="POST">
+            <input type="text" name="full_name" placeholder="Full Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required 
+                   title="Password must contain at least one number, one uppercase letter, and one special symbol">
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            <button type="submit">Next</button>
+        </form>
+    </div>
+</body>
+</html> 

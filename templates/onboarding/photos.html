@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photos - Onboarding</title>
+    <style>
+        /* Copy styles from previous templates */
+        .photo-upload {
+            margin-bottom: 30px;
+        }
+        .photo-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .preview-image {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .upload-instructions {
+            color: #666;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Add your photos</h2>
+        <form action="/onboarding/photos" method="POST" enctype="multipart/form-data">
+            <div class="photo-upload">
+                <input type="file" name="photos" id="photoInput" 
+                       accept="image/*" multiple required 
+                       onchange="previewPhotos(this)">
+                <div class="upload-instructions">
+                    Upload 1-6 photos of yourself
+                </div>
+                <div class="photo-preview" id="photoPreview"></div>
+            </div>
+            <button type="submit">Next</button>
+        </form>
+    </div>
+    <script>
+        function previewPhotos(input) {
+            const preview = document.getElementById('photoPreview');
+            preview.innerHTML = '';
+            
+            if (input.files.length > 6) {
+                alert('Please select maximum 6 photos');
+                input.value = '';
+                return;
+            }
+
+            for (const file of input.files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'preview-image';
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html> 

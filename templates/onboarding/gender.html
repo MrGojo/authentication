@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gender - Onboarding</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .gender-options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .gender-option {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .gender-option:hover {
+            border-color: #4caf50;
+        }
+        .gender-option.selected {
+            background-color: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>What's your gender?</h2>
+        <form action="/onboarding/gender" method="POST">
+            <div class="gender-options">
+                <div class="gender-option" onclick="selectGender('Male', this)">Male</div>
+                <div class="gender-option" onclick="selectGender('Female', this)">Female</div>
+                <div class="gender-option" onclick="selectGender('Other', this)">Other</div>
+            </div>
+            <input type="hidden" name="gender" id="selected_gender">
+            <button type="submit">Next</button>
+        </form>
+    </div>
+    <script>
+        function selectGender(gender, element) {
+            // Remove selected class from all options
+            document.querySelectorAll('.gender-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            // Update hidden input
+            document.getElementById('selected_gender').value = gender;
+        }
+    </script>
+</body>
+</html> 
